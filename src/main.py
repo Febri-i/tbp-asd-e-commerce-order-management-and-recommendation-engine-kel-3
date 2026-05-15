@@ -5,25 +5,25 @@ from command_processor import *
 
 from enum import Enum, auto
 
-class ParamPattern(Enum):
-    STRING = 0
-    NUMBER = 1
-
-def verify_param(param: List[str], pattern: List[ParamPattern]) -> bool:
-    if len(param) != len(pattern):
-        return False
-    
-    for i, data in enumerate(param):
-        if pattern[i] == ParamPattern.NUMBER:
-            if not data.isnumeric():
-                return False
-        elif pattern[i] == ParamPattern.STRING:
-            if not data.isalnum(): # Ganti isalpha() jadi isalnum() agar P001 / C001 lolos
-                return False
-                
-    return True # Ganti dari False ke True (jika semua pengecekan lolos)
-
 def process_command(input_str: str):
+    """
+    Memproses dan merutekan input perintah dari pengguna (CLI) ke fungsi eksekusi yang sesuai.
+
+    Fungsi ini bertindak sebagai command processor/router. Alur kerjanya meliputi:
+    1. Memecah string input mentah menjadi token (perintah utama dan argumen).
+    2. Mencocokkan perintah utama menggunakan pola match-case.
+    3. Memvalidasi jumlah dan tipe data argumen menggunakan fungsi verify_param().
+    4. Mencetak informasi kompleksitas waktu (Big-O) jika validasi berhasil.
+    5. Mengeksekusi fungsi modul sistem (bisnis logic) yang relevan, atau mencetak pesan error jika format salah.
+
+    Args:
+        input_str (str): String mentah (raw input) yang diketikkan oleh pengguna di terminal. 
+                         Contoh: "ORDER C001 P005 PREMIUM 2"
+
+    Returns:
+        None: Fungsi ini tidak mengembalikan nilai, melainkan memicu perubahan state 
+              pada struktur data sistem atau mencetak output ke layar terminal.
+    """
     tokens: List[str] = input_str.split()
     if not tokens:
         return
@@ -57,6 +57,7 @@ def process_command(input_str: str):
             print("11. KELUAR")
             print("   -> Keluar dari aplikasi")
             print("========================================\n")
+            
         case "ORDER":
             # Format: ORDER <cust_id> <prod_id> <tier> <qty>
             if verify_param(args, [ParamPattern.STRING, ParamPattern.STRING, ParamPattern.STRING, ParamPattern.NUMBER]):
@@ -135,6 +136,7 @@ def process_command(input_str: str):
 
         case _:
             print(f"Perintah tidak dikenali: {command}. Coba lagi.")
+
 def main():
 
     init();
