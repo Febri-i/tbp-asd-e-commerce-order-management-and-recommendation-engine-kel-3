@@ -28,6 +28,7 @@
           # Define the Python environment with specific packages
           pythonEnv = pkgs.python3.withPackages (
             ps: with ps; [
+              numpy
             ]
           );
 
