@@ -1,9 +1,11 @@
-from typing import Dict, List
+
+from typing import Dict, List, cast
 from data_structures.produk import Produk, TIER, Order
 from data_structures.bst import BSTKatalog
 from data_structures.stack import Stack
 from data_structures.graph import GraphRekomendasi
 from data_structures.queue import Queue
+from data_structures.ll import LLNode
 
 from datetime import datetime
 
@@ -40,170 +42,264 @@ def init():
         cust_id = f'C{i:03d}'
         cust_stacks[cust_id] = Stack() # Buat stack kosong untuk tiap customer
 
-def order_produk(customer_id: str, produk_id: str,  tier: str, quantity: int):
-    global cust_stacks
-    global bst_katalog
-    global TIER
-    global order_counter
-    global queues
-
-    if tier not in TIER:
-        print(f"Invalid syntax: tier \"{tier}\" is not available.");
-        return;
-    if customer_id not in cust_stacks:
-        print(f"Error: customer with id \"{customer_id}\" is not available.")
-        return;
-    produk = bst_katalog.search(produk_id)
-    if not produk: 
-        print(f"Error: product with id \"{produk_id}\" is not available.")
-        return;
-    if(produk.stok < 1):
-        print(f"Error: Stok produk habis.")
-        return;
-
-    produk.stok -= quantity;
-
-    queues[tier].enqueue(Order(order_id=order_counter,
-                               pelanggan=customer_id,
-                               produk_kode=produk_id, 
-                               qty= quantity,
-                               tier=TIER[tier],
-                               total_harga=produk.harga * quantity,
-                               waktu_pesan=time.time()));
-
-    order_counter += 1;
-
-def serve():
-    global queues
-    served: Order | None = None;
-    if not (queues['PREMIUM'].is_empty()):
-        served:Order = queues['PREMIUM'].dequeue()
-    elif not (queues['REGULAR'].is_empty()):
-        served:Order = queues['REGULAR'].dequeue();
-    elif not (queues['ECONOMY'].is_empty()):
-        served:Order = queues['ECONOMY'].dequeue();
-
-    if(served == None):
-        print("Tidak ada lagi antrean.");
-        return;
-
-    print("\n==== Melayani =====");
-    print(f"Order ID: {served.order_id}");
-    print(f"Customer ID: {served.pelanggan}");
-    print(f"Jumlah: {served.qty}");
-    print(f"Total Harga: {served.total_harga}");
-    print("=====================\n");
-
-    prev_transaction_node = cust_stacks[served.pelanggan].top
-    if prev_transaction_node:
-        prev_order :Order|None= prev_transaction_node.data
-        if prev_order:
-            graph_rek.add_copurchase(prev_order.produk_kode, served.produk_kode)
-
-    cust_stacks[served.pelanggan].push(served);
-    order_stack.push(served);
-
- 
-def cancel_last():
-    last_order: Order | None = order_stack.pop();
-    if not (last_order):
-        print("Tidak ada lagi order.");
-        return;
-
-    canceled: Order = cust_stacks[last_order.pelanggan].pop();
-    bst_katalog.update_stok(last_order.produk_kode, last_order.qty);
-    print(f"Cancel order id: {canceled.order_id}")
-
-def cari_produk(kode: str):
-    result: Produk|None = bst_katalog.search(kode);
-    if not result:
-        print("Produk tidak ditemukan.")
-        return;
-
-    print("======= INFORMASI PRODUK =======")
-    print(f"Nama: {result.nama}");
-    print(f"Harga: {result.harga}");
-    print(f"Stok: {result.stok}");
-    print(f"Kode: {result.kode}");
-    print("================================")
-
-def update_stok(kode: str, quantity: int):
-    result: Produk| None = bst_katalog.search(kode)
-    if not result:
-        print("Produk tidak ditemukan.")
-        return;
-
-    result.stok = quantity;
-
-def rekomendasi(kode:str):
-    rekomendasi = graph_rek.rekomendasikan(kode);
-    if(len(rekomendasi) < 1):
-        print("Tidak ada rekomendasi.")
-        return
-    print("Rekomendasi produk:")
-    for produk_id in rekomendasi :
-        produk = bst_katalog.search(produk_id);
-        if not produk:
-            continue
-
-        print(f"- {produk.kode}: {produk.nama}")
-        
-
-def riwayat(cust_id: str):
-    if cust_id not in cust_stacks:
-        print("Costumer tidak ditemukan.")
-        return;
-
-    current_order = cust_stacks[cust_id].top;
-
-    for _ in range(10):
-        if not current_order:
-            return;
-        order: Order | None = current_order.data;
-
-        if not (order):
-            return;
-
-        print(f"- {order.order_id}: {order.produk_kode}");
-        print(f"\tJumlah: {order.qty} Harga: {order.total_harga}")
-        current_order = current_order.next;
-
 
 def is_today(timestamp):
     return datetime.fromtimestamp(timestamp).date() == datetime.now().date()
 
+def sorted_insert_order(new_node: LLNode, sorted_head: LLNode | None):
+    if sorted_head is None or cast(Order, new_node.data).waktu_pesan <= cast(Order, sorted_head.data).waktu_pesan:
+        new_node.next = sorted_head  # PERBAIKAN: Hubungkan ke head yang lama, bukan di-None-kan
+        return new_node
+    
+    else:
+        curr = sorted_head
+        while curr.next is not None and cast(Order, curr.next.data).waktu_pesan < cast(Order, new_node.data).waktu_pesan:
+            curr = curr.next
+            
+        new_node.next = curr.next
+        curr.next = new_node
+        
+        return sorted_head
+
+
+def insertion_sort_order(head: LLNode):
+    sorted_head = None
+    curr = head
+    
+    while curr is not None:
+        next_node = curr.next
+        sorted_head = sorted_insert_order(curr, sorted_head)
+        curr = next_node
+        
+    return sorted_head
+
+def bubble_sort_order(arr: List[Order]):
+    n = len(arr)
+    
+    for i in range(n):
+        swapped = False
+
+        for j in range(0, n-i-1):
+            if arr[j].total_harga < arr[j+1].total_harga:
+                arr[j], arr[j+1] = arr[j+1], arr[j]
+                swapped = True
+        if (swapped == False):
+            break
+
+
+def format_rp(v):
+    return f"Rp {v:,.0f}".replace(",", ".")
+
+def get_tier_name(tier_id: int):
+    mapping = {1: "PREMIUM", 2: "REGULAR", 3: "ECONOMY"}
+    return mapping.get(tier_id, "UNKNOWN")
+
+
+def order_produk(customer_id: str, produk_id: str, tier: str, quantity: int):
+    global order_counter
+    
+    if tier not in TIER:
+        print(f"[!] Gagal: Tier '{tier}' tidak valid.")
+        return
+    if customer_id not in cust_stacks:
+        print(f"[!] Gagal: Customer '{customer_id}' tidak ditemukan.")
+        return
+        
+    produk = bst_katalog.search(produk_id)
+    if not produk: 
+        print(f"[!] Gagal: Produk '{produk_id}' tidak ditemukan.")
+        return
+    if produk.stok < quantity:
+        print(f"[!] Gagal: Stok tidak mencukupi (Tersisa: {produk.stok}).")
+        return
+
+    produk.stok -= quantity
+    total = produk.harga * quantity
+    
+    new_order = Order(
+        order_id=order_counter,
+        pelanggan=customer_id,
+        produk_kode=produk_id, 
+        qty=quantity,
+        tier=TIER[tier],
+        total_harga=total,
+        waktu_pesan=time.time()
+    )
+
+    queues[tier].enqueue(new_order)
+    order_counter += 1
+    
+    print(f"[✓] Order Berhasil Dibuat!")
+    print(f"    ID: {new_order.order_id} | {customer_id} memesan {quantity}x {produk.nama}")
+    print(f"    Total: {format_rp(total)} ({tier})")
+
+def serve():
+    served: Order | None = None
+    if not (queues['PREMIUM'].is_empty()):
+        served = queues['PREMIUM'].dequeue()
+    elif not (queues['REGULAR'].is_empty()):
+        served = queues['REGULAR'].dequeue()
+    elif not (queues['ECONOMY'].is_empty()):
+        served = queues['ECONOMY'].dequeue()
+
+    if served is None:
+        print("[!] Antrean kosong. Tidak ada pesanan untuk dilayani.")
+        return
+
+    produk = bst_katalog.search(served.produk_kode)
+    nama_produk = produk.nama if produk else "Produk Tidak Diketahui"
+
+    print("\n" + "="*30)
+    print("      MELAYANI PESANAN")
+    print("="*30)
+    print(f"Order ID     : {served.order_id}")
+    print(f"Pelanggan    : {served.pelanggan}")
+    print(f"Tier         : {get_tier_name(served.tier)}")
+    print(f"Produk       : {served.produk_kode} - {nama_produk}")
+    print(f"Jumlah       : {served.qty}")
+    print(f"Total Bayar  : {format_rp(served.total_harga)}")
+    print("="*30 + "\n")
+
+    # Logika Graph Rekomendasi
+    prev_node = cust_stacks[served.pelanggan].top
+    if prev_node and prev_node.data:
+        graph_rek.add_copurchase(prev_node.data.produk_kode, served.produk_kode)
+
+    cust_stacks[served.pelanggan].push(served)
+    order_stack.push(served)
+
+def cancel_last():
+    last_order: Order | None = order_stack.pop()
+    if not last_order:
+        print("[!] Tidak ada riwayat pelayanan untuk di-cancel.")
+        return
+
+    cust_stacks[last_order.pelanggan].pop()
+    bst_katalog.update_stok(last_order.produk_kode, last_order.qty)
+    
+    print(f"[!] CANCEL BERHASIL: Pesanan #{last_order.order_id} dibatalkan.")
+    print(f"    Stok {last_order.produk_kode} telah dikembalikan (+{last_order.qty}).")
+
+def cari_produk(kode: str):
+    result: Produk | None = bst_katalog.search(kode)
+    if not result:
+        print(f"[!] Produk {kode} tidak ditemukan di katalog.")
+        return
+
+    print("\n" + "╔" + "═"*35 + "╗")
+    print(f"║        INFORMASI PRODUK           ")
+    print("╠" + "═"*35 + "╣")
+    print(f"║ Kode  : {result.kode:<25} ║")
+    print(f"║ Nama  : {result.nama[:25]:<25} ║")
+    print(f"║ Harga : {format_rp(result.harga):<25} ║")
+    print(f"║ Stok  : {result.stok:<25} ║")
+    print("╚" + "═"*35 + "╝")
+
+def rekomendasi(kode: str):
+    rekomendasi_list = graph_rek.rekomendasikan(kode)
+    if not rekomendasi_list:
+        print(f"[i] Belum ada pola pembelian untuk produk {kode}.")
+        return
+        
+    print(f"\n[★] Pelanggan yang membeli {kode} juga membeli:")
+    for p_id in rekomendasi_list:
+        p = bst_katalog.search(p_id)
+        nama = p.nama if p else "???"
+        print(f"    > {p_id} - {nama}")
+
+def riwayat(cust_id: str):
+    if cust_id not in cust_stacks:
+        print(f"[!] Customer {cust_id} tidak terdaftar.")
+        return
+
+    curr = cust_stacks[cust_id].top
+    print(f"\n--- 10 Transaksi Terakhir: {cust_id} ---")
+    
+    count = 0
+    while curr and count < 10:
+        ord_data: Order = curr.data
+        p = bst_katalog.search(ord_data.produk_kode)
+        nama = p.nama if p else "???"
+        
+        print(f"#{ord_data.order_id:03} | {nama[:15]:<15} | {ord_data.qty}x | {format_rp(ord_data.total_harga)}")
+        curr = curr.next
+        count += 1
+    
+    if count == 0:
+        print("    Belum ada riwayat transaksi.")
+
 def laporan_harian():
-    latest = order_stack.top;
-    if not latest:
-        print("Belum ada order!!");
-        return;
+    node = order_stack.top
+    if not node:
+        print("[!] Belum ada pesanan yang dilayani.")
+        return
+
+    laporan_hari_ini_arr: List[Order] = []
+    head_waktu: LLNode = node
+    
+    curr = node
+    while curr is not None:
+        order: Order = curr.data
+        if is_today(order.waktu_pesan):
+            laporan_hari_ini_arr.append(order)
+            
+            new_node = LLNode(order)
+            new_node.next = head_waktu
+            head_waktu = new_node
+            
+        curr = curr.next
+
+    if len(laporan_hari_ini_arr) == 0:
+        print("[!] Belum ada pesanan yang dilayani hari ini.")
+        return
+
+    sorted_waktu_head = insertion_sort_order(head_waktu)
+    
+    print(f"\n{'='*65}")
+    print(f"{'LAPORAN TRANSAKSI HARIAN (Diurutkan per Waktu Pemesanan)':^65}")
+    print(f"{datetime.now().strftime('%d %B %Y'):^65}")
+    print(f"{'='*65}")
+    print(f"{'ID':<5} | {'Produk':<10} | {'Qty':<4} | {'Total':<14} | {'Waktu'}")
+    print(f"{'-'*65}")
+
+    curr_waktu = sorted_waktu_head
+    while curr_waktu:
+        ord_data: Order = curr_waktu.data
+        waktu_str = datetime.fromtimestamp(ord_data.waktu_pesan).strftime('%H:%M:%S')
+        print(f"{ord_data.order_id:<5} | {ord_data.produk_kode:<10} | {ord_data.qty:<4} | {format_rp(ord_data.total_harga):<14} | {waktu_str}")
+        curr_waktu = curr_waktu.next
+    print(f"{'='*65}\n")
 
 
-    # TODO: Sort.
+    bubble_sort_order(laporan_hari_ini_arr)
+    
+    print(f"{'='*65}")
+    print(f"{'LAPORAN TRANSAKSI HARIAN (Diurutkan per Harga Termahal)':^65}")
+    print(f"{datetime.now().strftime('%d %B %Y'):^65}")
+    print(f"{'='*65}")
+    print(f"{'ID':<5} | {'Produk':<10} | {'Qty':<4} | {'Total':<14} | {'Waktu'}")
+    print(f"{'-'*65}")
 
-    while latest is not None:
-        order:Order|None = latest.data
-        if not order:
-            break;
+    total_omzet = 0
+    for ord_data in laporan_hari_ini_arr:
+        waktu_str = datetime.fromtimestamp(ord_data.waktu_pesan).strftime('%H:%M:%S')
+        print(f"{ord_data.order_id:<5} | {ord_data.produk_kode:<10} | {ord_data.qty:<4} | {format_rp(ord_data.total_harga):<14} | {waktu_str}")
+        total_omzet += ord_data.total_harga
 
-        if not is_today(order.waktu_pesan):
-            return;
-
-        print(f"- {order.order_id}: {order.produk_kode}")
-        print(f"\tWaktu pesan: {datetime.fromtimestamp(order.waktu_pesan).strftime('%Y-%m-%d %H:%M:%S')}")
-
-        latest = latest.next;
+    print(f"{'-'*65}")
+    print(f"TOTAL TRANSAKSI : {len(laporan_hari_ini_arr)}")
+    print(f"TOTAL OMZET     : {format_rp(total_omzet)}")
+    print(f"{'='*65}\n")
 
 def undo_order(cust_id: str):
     if cust_id not in cust_stacks:
-        print("Costumer tidak ditemukan.")
-        return;
+        print(f"[!] Gagal: Customer {cust_id} tidak ditemukan.")
+        return
     
-    order: Order | None = cust_stacks[cust_id].pop();
-
+    order: Order | None = cust_stacks[cust_id].pop()
     if not order:
-        print("Costumer belum order.");
-        return;
+        print(f"[!] Gagal: {cust_id} tidak memiliki riwayat pesanan.")
+        return
 
-    bst_katalog.update_stok(order.produk_kode, order.qty);
-    print(f"Undo order #{order.order_id}");
+    bst_katalog.update_stok(order.produk_kode, order.qty)
+    print(f"[✓] Undo Berhasil: Pesanan #{order.order_id} milik {cust_id} telah dihapus.")
