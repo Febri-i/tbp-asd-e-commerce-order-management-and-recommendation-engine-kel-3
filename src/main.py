@@ -38,13 +38,24 @@ class Queue:
 
     def enqueue(self, data) -> None:
         """Big-O: O(1) sisip di tail."""
-        # TODO: implementasikan
-        pass
+        new_node = LLNode(data)
+        if self.is_empty():
+            self.head = self.tail = new_node
+        else:
+            self.tail.next = new_node
+            self.tail = new_node
+        self._size += 1
 
     def dequeue(self):
         """Big-O: O(1) ambil dari head."""
-        # TODO: implementasikan
-    pass
+        if self.is_empty():
+            return None
+        data = self.head.data
+        self.head = self.head.next
+        if self.head is None:
+            self.tail = None
+        self._size -= 1
+        return data
 
     def peek(self):
         return self.head.data if self.head else None
@@ -65,11 +76,21 @@ class Stack:
         if self._size >= self.kapasitas:
         # Hapus elemen terbawah (implementasi opsional)
             return False
-        # TODO: implementasikan
+        new_node = LLNode(data)
+        new_node.next = self.top
+        self.top = new_node
+        self._size += 1
         return True
     def pop(self):
-    # TODO: implementasikan
-        pass
+        """Big-O: O(1) ambil dari top"""
+        if self.top is None:
+            return None
+        data = self.top.data
+        #geser top ke bawahnya
+        self.top = self.top.next
+        self._size -= 1
+        return data
+    
 # ── BST Katalog Produk (implementasikan) ─────────────────────────
 class BSTNode:
     def __init__(self, produk: Produk):
@@ -136,3 +157,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
