@@ -83,3 +83,9 @@ class BSTKatalog:
 
         self._size -= 1 
         return True
+    
+def search(self, kode: str) -> Optional[Produk]:
+        """Big-O = O(log n)"""
+        node = self._find_node(kode)
+        return node.produk if node else None
+        
