@@ -84,8 +84,22 @@ class BSTKatalog:
         self._size -= 1 
         return True
     
-def search(self, kode: str) -> Optional[Produk]:
+    def search(self, kode: str) -> Optional[Produk]:
         """Big-O = O(log n)"""
         node = self._find_node(kode)
         return node.produk if node else None
         
+
+    def update_stok(self, kode: str, qty_delta: int) -> bool:
+        """Big-O = O(log n)"""
+        node = self._find_node(kode)
+
+        if not node:
+            return False
+        
+        if node.produk.stok + qty_delta < 0:
+            return False
+        
+        node.produk.stok += qty_delta
+        return True
+    
