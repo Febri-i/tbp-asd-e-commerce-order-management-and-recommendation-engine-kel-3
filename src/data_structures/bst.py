@@ -103,3 +103,14 @@ class BSTKatalog:
         node.produk.stok += qty_delta
         return True
     
+    def inorder(self) -> list[Produk]:
+        """Big-O = O(n)"""
+        result = []
+        def traverse(node):
+            if node:
+                traverse(node.left)
+                result.append(node.produk)
+                traverse(node.right)
+        
+        traverse(self.root)
+        return result
