@@ -1,4 +1,5 @@
-
+from typing import Optional, List
+from produk import Produk
 
 class BSTNode:
     __slots__ = 'produk', 'left', 'right', 'parent'
