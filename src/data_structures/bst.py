@@ -57,3 +57,29 @@ class BSTKatalog:
         self._size += 1
         return True
     
+    def delete(self, kode: str) -> bool:
+        """Big-O = O(log n), worst case = O(n)"""
+        n = self._find_node(kode)
+        if not n:
+            return False
+        
+        if n.left and n.right: 
+            s = n.right
+            while s.left:
+                s = s.left
+            n.produk = s.produk
+            n = s
+        ch = n.left if n.left else n.right
+
+        if ch:
+            ch.parent = n.parent
+
+        if not n.parent:
+            self.root = ch
+        elif n == n.parent.left:
+            n.parent.left = ch
+        else:
+            n.parent.right = ch
+
+        self._size -= 1 
+        return True
