@@ -29,3 +29,31 @@ class BSTKatalog:
             else:
                 curr = curr.right
         return None
+    
+    def insert(self, produk: Produk) -> bool:
+        """Big-O = O(log n), worst case = O(n)"""
+        new_node = BSTNode(produk)
+
+        if self.root is None:
+            self.root = new_node
+            self._size += 1
+            return True
+        
+        curr = self.root
+        while True:
+            if produk.kode < curr.produk.kode:
+                if curr.left is None:
+                    curr.left = BSTNode(produk, parent=curr)
+                    break
+                curr = curr.left
+            elif produk.kode > curr.produk.kode:
+                if curr.right is None:
+                    curr.right = BSTNode(produk, parent=curr)
+                    break
+                curr = curr.right
+            else:
+                return False
+        
+        self._size += 1
+        return True
+    
