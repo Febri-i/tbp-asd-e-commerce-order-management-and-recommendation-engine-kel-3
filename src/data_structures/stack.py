@@ -12,8 +12,17 @@ class Stack:
         if self._size >= self.kapasitas:
         # Hapus elemen terbawah (implementasi opsional)
             return False
-        # TODO: implementasikan
+        new_node = LLNode(data)
+        new_node.next = self.top
+        self.top = new_node
+        self._size += 1
         return True
     def pop(self):
-    # TODO: implementasikan
-        pass
+        """Big-O: O(1) ambil dari top"""
+        if self.top is None:
+            return None
+        data = self.top.data
+        #geser top ke bawahnyya
+        self.top = self.top.next
+        self._size -= 1
+        return data
