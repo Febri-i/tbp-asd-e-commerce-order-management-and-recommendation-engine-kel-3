@@ -1,5 +1,5 @@
 from typing import Optional, List
-from produk import Produk
+from data_structures.produk import Produk
 
 class BSTNode:
     __slots__ = 'produk', 'left', 'right', 'parent'
@@ -114,3 +114,4 @@ class BSTKatalog:
         
         traverse(self.root)
         return result
+
