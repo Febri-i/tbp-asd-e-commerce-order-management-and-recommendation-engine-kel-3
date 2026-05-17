@@ -97,6 +97,10 @@ def init():
         cust_id = f'C{i:03d}'
         cust_stacks[cust_id] = Stack()
 
+    for tier in ["PREMIUM", "REGULAR", "ECONOMY"]:
+        while not queues[tier].is_empty():
+            queues[tier].dequeue()
+
 def is_today(timestamp):
     """
     Memeriksa apakah sebuah UNIX timestamp merujuk pada tanggal sistem hari ini.
