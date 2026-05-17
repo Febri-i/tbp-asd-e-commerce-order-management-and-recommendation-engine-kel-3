@@ -11,7 +11,7 @@ sys.path.insert(0, src_path)
 from data_structures.produk import Order
 from data_structures.ll import LLNode
 
-from command_processor import bubble_sort_order, insertion_sort_order 
+from modules.command_processor import bubble_sort_order, insertion_sort_order 
 
 def run_benchmark():
     NUM_ITEMS = 3000

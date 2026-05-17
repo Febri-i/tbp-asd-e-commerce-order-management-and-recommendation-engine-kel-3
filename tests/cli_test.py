@@ -10,10 +10,10 @@ sys.path.insert(0, root_path)
 sys.path.insert(0, src_path)
 from unittest.mock import Mock
 from src.data_structures.ll import LLNode 
-from src.command_processor import sorted_insert_order, insertion_sort_order, bubble_sort_order
+from modules.command_processor import sorted_insert_order, insertion_sort_order, bubble_sort_order
 
 
-from src.command_processor import (
+from modules.command_processor import (
     verify_param, ParamPattern, format_rp, get_tier_name,
     order_produk, serve, init, bst_katalog, queues, cust_stacks, order_counter, cancel_last, update_stok, undo_order
 )

@@ -1,7 +1,7 @@
 from os import abort
 from dataclasses import dataclass, field
 from typing import List, Dict
-from command_processor import *
+from modules.command_processor import *
 
 from enum import Enum, auto
 
