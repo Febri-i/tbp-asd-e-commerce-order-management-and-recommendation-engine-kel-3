@@ -95,7 +95,12 @@ class BSTKatalog:
         return True
     
     def delete(self, kode: str) -> bool:
-        """Big-O = O(log n), worst case = O(n)"""
+        """
+        Menghapus produk dengan kode tertentu dari BST.
+        Menangani tiga kasus: node daun, node satu anak, node dua anak.
+        Returns: True jika berhasil dihapus, False jika kode tidak ditemukan.
+        Kompleksitas: O(log n) rata-rata, O(n) worst case.
+        """
         n = self._find_node(kode)
         if not n:
             return False
@@ -122,13 +127,22 @@ class BSTKatalog:
         return True
     
     def search(self, kode: str) -> Optional[Produk]:
-        """Big-O = O(log n)"""
+        """
+        Mencari produk berdasarkan kode.
+        Returns: Objek Produk jika ditemukan, None jika tidak.
+        Kompleksitas: O(log n) rata-rata, O(n) worst case.
+        """
         node = self._find_node(kode)
         return node.produk if node else None
         
 
     def update_stok(self, kode: str, qty_delta: int) -> bool:
-        """Big-O = O(log n)"""
+        """
+        Mengubah jumlah stok produk dengan delta tertentu (bisa positif/negatif).
+        Stok tidak boleh menjadi negatif setelah update.
+        Returns: True jika berhasil, False jika kode tidak ditemukan atau stok tidak cukup.
+        Kompleksitas: O(log n) rata-rata, O(n) worst case.
+        """
         node = self._find_node(kode)
 
         if not node:
