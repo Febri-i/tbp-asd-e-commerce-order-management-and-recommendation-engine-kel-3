@@ -47,15 +47,157 @@ Pastikan Anda telah menginstal **Python 3.12** atau versi terbaru.
 ## 📋 Daftar Perintah CLI (Skenario Uji)
 Sistem berjalan secara interaktif melalui CLI dengan perintah berikut:
 
-| Perintah | Deskripsi | Contoh Input |
-| :--- | :--- | :--- |
-| `ORDER` | Menambah pesanan baru ke antrian | `ORDER C001 P005 PREMIUM` |
-| `SERVE` | Memproses pesanan prioritas tertinggi | `SERVE` |
-| `CANCEL_LAST` | Membatalkan pesanan terakhir | `CANCEL_LAST` |
-| `CARI_PRODUK`| Mencari detail produk di BST | `CARI_PRODUK P010` |
-| `REKOMENDASI`| Rekomendasi produk berbasis Graph/BFS | `REKOMENDASI P001` |
-| `RIWAYAT` | Menampilkan 10 transaksi terakhir user | `RIWAYAT C001` |
-| `LAPORAN_HARIAN` | Menampilkan urutan order selesai | `LAPORAN_HARIAN` |
+| Perintah | Deskripsi | 
+| :--- | :--- | 
+| `ORDER` | Menambah pesanan baru ke antrian |
+| `SERVE` | Memproses pesanan prioritas tertinggi | 
+| `CANCEL_LAST` | Membatalkan pesanan terakhir |
+| `CARI_PRODUK`| Mencari detail produk di BST |
+| `REKOMENDASI`| Rekomendasi produk berbasis Graph/BFS |
+| `RIWAYAT` | Menampilkan 10 transaksi terakhir user |
+| `LAPORAN_HARIAN` | Menampilkan urutan order selesai |
+
+## 📋 Contoh Input dan Output
+### ORDER
+> `ORDER <customer_id> <product_id> <tier> <quantity>`
+
+input:
+```
+ORDER C001 P005 PREMIUM 10
+```
+output:
+```
+Big-O: O(log n) untuk BST Search + O(1) untuk Queue Enqueue
+[✓] Order Berhasil Dibuat!
+    ID: 0 | C001 memesan 10x Mouse Model-5
+    Total: Rp 46.950.000 (PREMIUM)
+```
+
+### SERVE
+> `SERVE`
+
+input:
+```
+SERVE
+```
+output:
+```
+Big-O: O(1) untuk Dequeue
+
+==============================
+      MELAYANI PESANAN
+==============================
+Order ID     : 0
+Pelanggan    : C001
+Tier         : PREMIUM
+Produk       : P005 - Mouse Model-5
+Jumlah       : 10
+Total Bayar  : Rp 46.950.000
+==============================
+```
+
+### CANCEL_LAST
+> `CANCEL_LAST`
+
+input:
+```
+CANCEL_LAST
+```
+
+output:
+```
+Big-O: O(1) Stack Pop + O(log n) update stok BST
+[!] CANCEL BERHASIL: Pesanan #0 dibatalkan.
+    Stok P005 telah dikembalikan (+10).
+```
+
+### CARI_PRODUK
+> `CARI_PRODUK <product_id>`
+
+input:
+```
+CARI_PRODUK P004
+```
+
+output:
+```
+╔═══════════════════════════════════╗
+║        INFORMASI PRODUK           ║
+╠═══════════════════════════════════╣
+║ Kode  : P004                      ║
+║ Nama  : Kabel HDMI Model-4        ║
+║ Harga : Rp 3.437.000              ║
+║ Stok  : 137                       ║
+╚═══════════════════════════════════╝
+```
+
+### REKOMENDASI
+> `REKOMENDASI <product_id>`
+
+input:
+```
+REKOMENDASI P005
+```
+
+output:
+```
+Big-O: O(V + E) untuk Graph Adjacency List Traversal
+
+[★] Pelanggan yang membeli P005 juga membeli:
+    > P004 - Kabel HDMI Model-4
+```
+
+### RIWAYAT
+> `RIWAYAT <customer_id>`
+
+input:
+```
+RIWAYAT C001
+```
+
+output:
+```
+Big-O: O(1) iterasi terbatas pada 10 node Stack teratas
+
+--- 10 Transaksi Terakhir: C001 ---
+#000 | Mouse Model-5   | 10x | Rp 46.950.000
+```
+
+### LAPORAN_HARIAN
+> `LAPORAN_HARIAN`
+
+input:
+```
+LAPORAN_HARIAN
+```
+
+output:
+```
+Big-O: O(n^2) menggunakan Linked List Insertion/Bubble Sort
+
+=================================================================
+    LAPORAN TRANSAKSI HARIAN (Diurutkan per Waktu Pemesanan)     
+                           17 May 2026                           
+=================================================================
+ID    | Produk     | Qty  | Total          | Waktu
+-----------------------------------------------------------------
+0     | P001       | 10   | Rp 19.350.000  | 21:08:52
+1     | P001       | 2    | Rp 3.870.000   | 21:09:16
+=================================================================
+
+=================================================================
+     LAPORAN TRANSAKSI HARIAN (Diurutkan per Harga Termahal)     
+                           17 May 2026                           
+=================================================================
+ID    | Produk     | Qty  | Total          | Waktu
+-----------------------------------------------------------------
+0     | P001       | 10   | Rp 19.350.000  | 21:08:52
+1     | P001       | 2    | Rp 3.870.000   | 21:09:16
+-----------------------------------------------------------------
+TOTAL TRANSAKSI : 2
+TOTAL OMZET     : Rp 23.220.000
+=================================================================
+```
 
 ## 📂 Struktur Folder
 ```text
