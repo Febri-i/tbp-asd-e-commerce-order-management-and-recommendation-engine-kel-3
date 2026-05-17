@@ -30,12 +30,21 @@ class BSTNode:
         self.parent: Optional['BSTNode'] = parent
 
 class BSTKatalog:
+    """
+    Binary Search Tree (BST) untuk mengelola katalog produk.
+    Produk diurutkan berdasarkan atribut `kode` (string).
+    """
+
     def __init__(self):
+        """Menginisialisasi BST kosong."""
         self.root: Optional[BSTNode] = None
         self._size = 0
 
     def __len__(self) -> int:
-        """Big-O = O(1)"""
+        """
+        Mengembalikan jumlah produk dalam BST.
+        Kompleksitas: O(1)
+        """
         return self._size
     
     def _find_node(self, kode: str) -> Optional[BSTNode]:
