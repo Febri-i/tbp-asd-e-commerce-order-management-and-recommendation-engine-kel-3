@@ -71,4 +71,4 @@ class TestStack(unittest.TestCase):
         self.assertEqual(self.stack.peek(), "3")
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(verbosity=2)

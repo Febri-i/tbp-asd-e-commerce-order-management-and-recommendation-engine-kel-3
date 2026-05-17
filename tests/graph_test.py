@@ -77,4 +77,4 @@ class TestGraphRekomendasi(unittest.TestCase):
         self.assertIn("P004", hasil_hop_3, "BFS gagal menjangkau kedalaman hop 3")
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(verbosity=2)

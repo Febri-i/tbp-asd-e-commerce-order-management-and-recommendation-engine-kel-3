@@ -89,4 +89,4 @@ class TestQueue(unittest.TestCase):
         self.assertIsNone(self.queue.dequeue())
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(verbosity=2)

@@ -127,4 +127,4 @@ class TestCLIApp(unittest.TestCase):
         self.assertIsNone(cust_stacks["C004"].top, "Pesanan gagal di-undo dari stack pelanggan")
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(verbosity=2)
