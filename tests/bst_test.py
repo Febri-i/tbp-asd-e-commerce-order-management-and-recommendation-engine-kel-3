@@ -60,6 +60,7 @@ class TestBSTKatalog(unittest.TestCase):
         self.katalog.insert(self.produk4)
         self.assertTrue(self.katalog.delete("P002"))
         self.assertIsNone(self.katalog.search("P002"))
+        assert self.katalog.root is not None
         # Inorder successor: P003
         self.assertEqual(self.katalog.root.produk.kode, "P003")
         self.assertEqual(len(self.katalog), 3)
@@ -121,38 +122,7 @@ class TestBSTKatalog(unittest.TestCase):
         kodes = [p.kode for p in inorder_result]
         self.assertEqual(kodes, ["P001", "P002", "P003", "P004"])
 
-    # ------------------------ BIG-O ANALYSIS (Performance) ------------------------
-    def test_complexity_analysis(self):
-        sizes = [100, 500, 1000, 2000]
-        print("\n=== Complexity Analysis (Average vs Worst Case) ===")
-        print("Size\tAvg Insert (s)\tWorst Insert (s)\tSearch (s)")
-        
-        for n in sizes:
-            random_keys = [f"ID{i:05d}" for i in range(n)]
-            random.shuffle(random_keys)
-            bst_avg = BSTKatalog()
-            start = time.perf_counter()
-            for key in random_keys:
-                bst_avg.insert(Produk(key, "item", 100, 1))
-            avg_insert_time = time.perf_counter() - start
 
-            sorted_keys = sorted(random_keys)
-            bst_worst = BSTKatalog()
-            start = time.perf_counter()
-            for key in sorted_keys:
-                bst_worst.insert(Produk(key, "item", 100, 1))
-            worst_insert_time = time.perf_counter() - start
-
-            target = random_keys[n//2]
-            start = time.perf_counter()
-            _ = bst_avg.search(target)
-            search_time = time.perf_counter() - start
-
-            print(f"{n}\t{avg_insert_time:.6f}\t\t{worst_insert_time:.6f}\t\t{search_time:.6f}")
-        
-        print("Observation: Average insert ~ O(log n), worst‑case insert ~ O(n).")
-        print("Search follows tree height (log n average, n worst‑case).\n")
-        self.assertTrue(True)  # just to mark test as passed
 
 
 if __name__ == "__main__":
