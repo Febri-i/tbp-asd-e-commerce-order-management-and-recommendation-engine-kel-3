@@ -12,7 +12,7 @@ class Queue:
         """Big-O: O(1) sisip di tail."""
         """Menambahkan pesanan/order baru ke antrean paling belakang"""
         new_node = LLNode(data)
-        if self.is_empty():
+        if self.is_empty() or not self.tail:
             self.head= self.tail = new_node
         else:
             self.tail.next = new_node
@@ -22,7 +22,7 @@ class Queue:
     def dequeue(self):
         """Big-O: O(1) ambil dari head."""
         """Memproses/mengambil pesanan antrean paling depan"""
-        if self.is_empty():
+        if self.is_empty() or not self.head:
             return None
         data = self.head.data
         self.head = self.head.next
