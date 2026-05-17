@@ -48,7 +48,10 @@ class BSTKatalog:
         return self._size
     
     def _find_node(self, kode: str) -> Optional[BSTNode]:
-        """Big-O = O(log n)"""
+        """
+        Mencari node dengan kode tertentu.
+        Kompleksitas: O(log n) rata-rata, O(n) worst case.
+        """
         curr = self.root
         while curr: 
             if kode == curr.produk.kode:
@@ -60,7 +63,12 @@ class BSTKatalog:
         return None
     
     def insert(self, produk: Produk) -> bool:
-        """Big-O = O(log n), worst case = O(n)"""
+        """
+        Menambahkan produk ke dalam BST.
+        Jika kode produk sudah ada, penyisipan gagal.
+        Returns: True jika berhasil, False jika duplikat.
+        Kompleksitas: O(log n) rata-rata, O(n) worst case.
+        """
         new_node = BSTNode(produk)
 
         if self.root is None:
