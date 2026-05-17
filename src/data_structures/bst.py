@@ -155,7 +155,11 @@ class BSTKatalog:
         return True
     
     def inorder(self) -> list[Produk]:
-        """Big-O = O(n)"""
+        """
+        Melakukan inorder traversal (kiri-root-kanan) sehingga produk terurut membesar.
+        Returns: List produk dalam urutan kode ascending.
+        Kompleksitas: O(n) (wajib mengunjungi semua node).
+        """
         result = []
         def traverse(node):
             if node:
