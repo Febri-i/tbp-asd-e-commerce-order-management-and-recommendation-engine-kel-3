@@ -327,7 +327,7 @@ def cari_produk(kode: str):
         return
 
     print("\n" + "╔" + "═"*35 + "╗")
-    print(f"║        INFORMASI PRODUK           ")
+    print(f"║        INFORMASI PRODUK           ║")
     print("╠" + "═"*35 + "╣")
     print(f"║ Kode  : {result.kode:<25} ║")
     print(f"║ Nama  : {result.nama[:25]:<25} ║")
