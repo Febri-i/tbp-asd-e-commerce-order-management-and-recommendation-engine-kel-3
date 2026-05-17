@@ -13,6 +13,12 @@ diurutkan berdasarkan kode produk (string). Mendukung operasi:
 - Delete (hapus produk)
 - Update stok
 - Inorder traversal (urutkan berdasarkan kode)
+
+Analisis Kompleksitas Waktu (Big-O):
+- Rata-rata: O(log n) untuk insert, search, delete, update_stok
+- Kasus terburuk (BST tidak seimbang): O(n)
+- __len__: O(1)
+- inorder: O(n) 
 """
 
 class BSTNode:
