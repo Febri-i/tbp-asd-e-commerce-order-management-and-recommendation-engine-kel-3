@@ -3,6 +3,23 @@ import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from data_structures.produk import Produk
 
+"""
+Modul BST (Binary Search Tree) untuk manajemen katalog produk.
+
+Modul ini menyediakan implementasi BST yang menyimpan objek Produk
+diurutkan berdasarkan kode produk (string). Mendukung operasi:
+- Insert (tambah produk)
+- Search (cari produk)
+- Delete (hapus produk)
+- Update stok
+- Inorder traversal (urutkan berdasarkan kode)
+
+Analisis Kompleksitas Waktu (Big-O):
+- Rata-rata: O(log n) untuk insert, search, delete, update_stok
+- Kasus terburuk (BST tidak seimbang): O(n)
+- __len__: O(1)
+- inorder: O(n) 
+"""
 
 class BSTNode:
     __slots__ = 'produk', 'left', 'right', 'parent'
