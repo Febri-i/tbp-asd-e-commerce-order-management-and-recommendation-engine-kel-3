@@ -26,3 +26,8 @@ class Stack:
         self.top = self.top.next
         self._size -= 1
         return data
+    def peek(self):
+        """Melihat data paling atas tanpa menghapusnya"""
+        if self.top is None:
+            return None
+        return self.top.data
