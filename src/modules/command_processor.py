@@ -394,7 +394,7 @@ def laporan_harian():
         return
 
     laporan_hari_ini_arr: List[Order] = []
-    head_waktu: LLNode = node
+    head_waktu: LLNode = None
     
     curr = node
     while curr is not None:
