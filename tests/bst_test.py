@@ -7,7 +7,8 @@ import random
 # Tambahkan folder 'src' ke sys.path, agar 'data_structures' bisa diakses
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
 
-from data_structures.bst import BSTKatalog
+from data_structures.bst import BSTNode
+from modules.katalog import BSTKatalog
 from data_structures.produk import Produk
 
 class TestBSTKatalog(unittest.TestCase):
