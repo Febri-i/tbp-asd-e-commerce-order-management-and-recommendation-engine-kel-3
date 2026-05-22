@@ -10,7 +10,7 @@ from data_structures.bst import BSTKatalog
 from data_structures.stack import Stack
 from data_structures.graph import GraphRekomendasi
 from data_structures.queue import Queue
-from data_structures.ll import LLNode
+from data_structures.linked_list import LLNode
 
 from datetime import datetime
 
