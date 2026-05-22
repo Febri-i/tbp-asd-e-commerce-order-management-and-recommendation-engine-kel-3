@@ -2,12 +2,18 @@ from typing import List, Dict, Tuple
 from data_structures.linked_list import Queue
 
 class GraphRekomendasi:
-    
+    """
+    Representasi graf produk untuk pola pembelian bersama (co-purchase).
+    Analisis Big-O BFS: O(V + E) [3].
+    """
     def __init__(self):
         self.adj: Dict[str, List[List]] = {}
 
     def add_copurchase(self, kode_a: str, kode_b: str):
-
+        """
+        Menambah atau meningkatkan bobot hubungan antara dua produk.
+        Big-O: O(deg(u)) untuk mencari tetangga yang ada [11].
+        """
         for u, v in [(kode_a, kode_b), (kode_b, kode_a)]:
             if u not in self.adj: self.adj[u] = []
             
@@ -21,7 +27,9 @@ class GraphRekomendasi:
                 self.adj[u].append([v, 1])
 
     def rekomendasikan(self, start_node: str, max_hop: int = 2) -> List[str]:
-
+        """
+        Mencari rekomendasi produk terdekat menggunakan BFS hingga hop tertentu.
+        """
         if start_node not in self.adj: return []
         
         visited = {start_node}
