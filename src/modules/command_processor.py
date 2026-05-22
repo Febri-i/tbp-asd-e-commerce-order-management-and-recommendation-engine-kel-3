@@ -7,11 +7,12 @@ from enum import Enum
 import numpy as np, time, random
 from typing import Dict, List, cast
 from data_structures.produk import Produk, TIER, Order
-from data_structures.bst import BSTKatalog
+from data_structures.bst import BSTNode
+from modules.katalog import BSTKatalog
 from data_structures.stack import Stack
 from data_structures.graph import GraphRekomendasi
 from data_structures.queue import Queue
-from data_structures.ll import LLNode
+from data_structures.linked_list import LLNode
 
 from modules.insertion_sort import insertion_sort_order
 from modules.bubble_sort import bubble_sort_order

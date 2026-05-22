@@ -9,7 +9,9 @@ src_path = os.path.join(root_path, 'src')
 sys.path.insert(0, root_path)
 sys.path.insert(0, src_path)
 from unittest.mock import Mock
-from src.data_structures.ll import LLNode 
+
+from src.data_structures.linked_list import LLNode 
+
 
 
 from modules.command_processor import bubble_sort_order

@@ -5,7 +5,9 @@ src_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))
 sys.path.insert(0, src_path)
 
 from data_structures.produk import Produk, TIER, Order
-from data_structures.ll import LLNode
+
+from src.data_structures.linked_list import LLNode
+
 
 def sorted_insert_order(new_node: LLNode, sorted_head: LLNode | None):
     """
