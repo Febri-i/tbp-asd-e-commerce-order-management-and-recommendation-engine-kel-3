@@ -2,7 +2,7 @@ from typing import Optional, List
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from data_structures.produk import Produk
-from src.data_structures.bst import BSTNode
+from data_structures.bst import BSTNode
 """
 Modul ini menyediakan implementasi BST yang menyimpan objek Produk
 diurutkan berdasarkan kode produk (string). Mendukung operasi:
