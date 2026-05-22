@@ -9,7 +9,7 @@ sys.path.insert(0, root_path)
 sys.path.insert(0, src_path)
 
 from data_structures.produk import Order
-from data_structures.ll import LLNode
+from data_structures.linked_list import LLNode
 
 from modules.command_processor import bubble_sort_order, insertion_sort_order 
 

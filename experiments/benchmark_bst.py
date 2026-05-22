@@ -21,7 +21,7 @@ except ImportError:
             self.harga = harga
             self.stok = stok
 
-from data_structures.bst import BSTKatalog  # Sesuaikan dengan nama file aslimu
+from modules.katalog import BSTKatalog
 
 def generate_dummy_products(num_items: int) -> list[Produk]:
     """Menghasilkan list produk dengan kode acak."""
