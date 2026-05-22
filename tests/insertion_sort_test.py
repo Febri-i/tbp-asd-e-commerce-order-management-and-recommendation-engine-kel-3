@@ -10,7 +10,7 @@ sys.path.insert(0, root_path)
 sys.path.insert(0, src_path)
 from unittest.mock import Mock
 
-from src.data_structures.linked_list import LLNode 
+from data_structures.linked_list import LLNode 
 
 
 from modules.insertion_sort import sorted_insert_order, insertion_sort_order

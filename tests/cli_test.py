@@ -9,7 +9,7 @@ src_path = os.path.join(root_path, 'src')
 sys.path.insert(0, root_path)
 sys.path.insert(0, src_path)
 from unittest.mock import Mock
-from src.data_structures.ll import LLNode 
+from data_structures.linked_list import LLNode 
 
 from modules.command_processor import (
     verify_param, ParamPattern, format_rp, get_tier_name,

@@ -6,7 +6,7 @@ sys.path.insert(0, src_path)
 
 from data_structures.produk import Produk, TIER, Order
 
-from src.data_structures.linked_list import LLNode
+from data_structures.linked_list import LLNode
 
 
 def sorted_insert_order(new_node: LLNode, sorted_head: LLNode | None):
