@@ -1,4 +1,4 @@
-from data_structures.ll import LLNode
+from src.data_structures.linked_list import LLNode
 from typing import Optional, Any
 
 class Stack:
