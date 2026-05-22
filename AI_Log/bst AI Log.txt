@@ -1,0 +1,74 @@
+aku punya file bst.py yang aku sisipkan pada sumber. itu ingin aku test fungsionalnya dan big-O setiap fitur menggunakan Unittest. file test akan berada di /src/tests/test_bst.py dan file bst.py berada di /src/data_structures/bst.py
+
+Traceback (most recent call last):
+File "/run/media/faiz/SDCard/tbp-asd-e-commerce-order-management-and-recommendation-engine-kel-3/src/data_structures/bst.py", line 3, in 
+from src.data_structures.bst import BSTKatalog, BSTNode
+ModuleNotFoundError: No module named 'src.data_structures'
+
+
+ERROR: src/tests/test_bst (unittest.loader._FailedTest.src/tests/test_bst)
+ImportError: Failed to import test module: src/tests/test_bst
+Traceback (most recent call last):
+File "/usr/lib/python3.14/unittest/loader.py", line 137, in loadTestsFromName
+module = import(module_name)
+ModuleNotFoundError: No module named 'src/tests/test_bst'
+Ran 1 test in 0.000s
+FAILED (errors=1)
+
+import sys
+import os
+import unittest
+root_path = os.path.abspath(os.path.join(os.path.dirname(file), '..'))
+src_path = os.path.join(root_path, 'src')
+sys.path.insert(0, root_path)
+sys.path.insert(0, src_path)
+temanku pake gini
+
+Traceback (most recent call last):
+File "/run/media/faiz/SDCard/tbp-asd-e-commerce-order-management-and-recommendation-engine-kel-3/tests/test_bst.py", line 12, in 
+from src.data_structures.bst import BSTKatalog, BSTNode
+ModuleNotFoundError: No module named 'src.data_structures'
+masih spt ini
+
+masih tidak mau
+
+sudah ada file init.py di src dan data structure
+
+bagaimana kode utuhnya
+
+❯ /usr/bin/python /run/media/faiz/SDCard/tbp-asd-e-commerce-order-management-and-recommendation-engine-kel-3/tests/test_bst.py
+Traceback (most recent call last):
+File "/run/media/faiz/SDCard/tbp-asd-e-commerce-order-management-and-recommendation-engine-kel-3/tests/test_bst.py", line 12, in 
+from src.data_structures.bst import BSTKatalog, BSTNode
+ModuleNotFoundError: No module named 'src.data_structures'
+buatkan kode jadinya yang sudah diperbaiki
+
+/run/media/faiz/SDCard/tbp-asd-e-commerce-order-management-and-recommendation-engine-kel-3 feat/bst* ≡
+❯ /usr/bin/python /run/media/faiz/SDCard/tbp-asd-e-commerce-order-management-and-recommendation-engine-kel-3/tests/test_bst.py
+Traceback (most recent call last):
+File "/run/media/faiz/SDCard/tbp-asd-e-commerce-order-management-and-recommendation-engine-kel-3/tests/test_bst.py", line 12, in 
+from src.data_structures.bst import BSTKatalog, BSTNode
+ModuleNotFoundError: No module named 'src.data_structures'
+/run/media/faiz/SDCard/tbp-asd-e-commerce-order-management-and-recommendation-engine-kel-3 feat/bst* ≡
+❯ /usr/bin/python /run/media/faiz/SDCard/tbp-asd-e-commerce-order-management-and-recommendation-engine-kel-3/tests/test_bst.py
+Traceback (most recent call last):
+File "/run/media/faiz/SDCard/tbp-asd-e-commerce-order-management-and-recommendation-engine-kel-3/tests/test_bst.py", line 12, in 
+from src.data_structures.bst import BSTKatalog, BSTNode
+ModuleNotFoundError: No module named 'src.data_structures'
+/run/media/faiz/SDCard/tbp-asd-e-commerce-order-management-and-recommendation-engine-kel-3 feat/bst* ≡
+❯ /usr/bin/python /run/media/faiz/SDCard/tbp-asd-e-commerce-order-management-and-recommendation-engine-kel-3/tests/test_bst.py
+Traceback (most recent call last):
+File "/run/media/faiz/SDCard/tbp-asd-e-commerce-order-management-and-recommendation-engine-kel-3/tests/test_bst.py", line 12, in 
+from src.data_structure.bst import BSTKatalog, BSTNode
+ModuleNotFoundError: No module named 'src.data_structure'
+/run/media/faiz/SDCard/tbp-asd-e-commerce-order-management-and-recommendation-engine-kel-3 feat/bst* ≡
+❯ /usr/bin/python /run/media/faiz/SDCard/tbp-asd-e-commerce-order-management-and-recommendation-engine-kel-3/tests/test_bst.py
+Traceback (most recent call last):
+File "/run/media/faiz/SDCard/tbp-asd-e-commerce-order-management-and-recommendation-engine-kel-3/tests/test_bst.py", line 12, in 
+from src.data_structures.bst import BSTKatalog, BSTNode
+File "/run/media/faiz/SDCard/tbp-asd-e-commerce-order-management-and-recommendation-engine-kel-3/src/data_structures/bst.py", line 2, in 
+from produk import Produk
+ModuleNotFoundError: No module named 'produk'
+malah jadi doble kode kesalahannya
+
+

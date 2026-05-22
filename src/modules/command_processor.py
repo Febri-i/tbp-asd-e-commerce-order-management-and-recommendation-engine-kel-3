@@ -1,6 +1,7 @@
 import sys
 import os
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+src_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))
+sys.path.insert(0, src_path)
 
 from enum import Enum
 import numpy as np, time, random
@@ -12,6 +13,9 @@ from data_structures.stack import Stack
 from data_structures.graph import GraphRekomendasi
 from data_structures.queue import Queue
 from data_structures.linked_list import LLNode
+
+from modules.insertion_sort import insertion_sort_order
+from modules.bubble_sort import bubble_sort_order
 
 from datetime import datetime
 
@@ -118,72 +122,6 @@ def is_today(timestamp):
     """
     return datetime.fromtimestamp(timestamp).date() == datetime.now().date()
 
-def sorted_insert_order(new_node: LLNode, sorted_head: LLNode | None):
-    """
-    Menyisipkan sebuah node Linked List secara terurut ke dalam Linked List 
-    berdasarkan parameter waktu pemesanan (ascending).
-
-    Args:
-        new_node (LLNode): Node Linked List baru yang berisi objek Order.
-        sorted_head (LLNode | None): Referensi ke head dari Linked List yang sudah terurut.
-
-    Returns:
-        LLNode: Head dari Linked List yang telah diperbarui.
-    """
-    if sorted_head is None or cast(Order, new_node.data).waktu_pesan <= cast(Order, sorted_head.data).waktu_pesan:
-        new_node.next = sorted_head
-        return new_node
-    
-    else:
-        curr = sorted_head
-        while curr.next is not None and cast(Order, curr.next.data).waktu_pesan < cast(Order, new_node.data).waktu_pesan:
-            curr = curr.next
-            
-        new_node.next = curr.next
-        curr.next = new_node
-        
-        return sorted_head
-
-def insertion_sort_order(head: LLNode):
-    """
-    Menerapkan algoritma Insertion Sort untuk mengurutkan data bertipe Linked List 
-    berdasarkan parameter waktu pesanan (ascending).
-
-    Args:
-        head (LLNode): Referensi head dari Linked List yang belum terurut.
-
-    Returns:
-        LLNode: Head dari Linked List yang sudah diurutkan.
-    """
-    sorted_head = None
-    curr = head
-    
-    while curr is not None:
-        next_node = curr.next
-        sorted_head = sorted_insert_order(curr, sorted_head)
-        curr = next_node
-        
-    return sorted_head
-
-def bubble_sort_order(arr: List[Order]):
-    """
-    Menerapkan algoritma Bubble Sort secara in-place untuk mengurutkan array berisi objek Order 
-    berdasarkan total harga (descending).
-
-    Args:
-        arr (List[Order]): Array atau list berisi data transaksi yang akan diurutkan.
-    """
-    n = len(arr)
-    
-    for i in range(n):
-        swapped = False
-
-        for j in range(0, n-i-1):
-            if arr[j].total_harga < arr[j+1].total_harga:
-                arr[j], arr[j+1] = arr[j+1], arr[j]
-                swapped = True
-        if (swapped == False):
-            break
 
 def format_rp(v):
     """
